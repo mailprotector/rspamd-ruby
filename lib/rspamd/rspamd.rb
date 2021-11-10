@@ -132,8 +132,8 @@ module Rspamd
       url = "#{BASE_URL}/#{route}"
       url += "?#{options[:params]}" unless options[:params].nil?
       options.delete :params
-      check_headers options
-      response = HTTParty.get(url, headers: options, format: :json)
+      headers = check_headers options
+      response = HTTParty.get(url, headers: headers, format: :json)
 
       raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
 
@@ -149,8 +149,8 @@ module Rspamd
       url = "#{BASE_URL}/#{route}"
       url += "?#{options[:params]}" unless options[:params].nil?
       options.delete :params
-      check_headers options
-      response = HTTParty.post(url, headers: options, body: body, format: :json)
+      headers = check_headers options
+      response = HTTParty.post(url, headers: headers, body: body, format: :json)
 
       raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
 
