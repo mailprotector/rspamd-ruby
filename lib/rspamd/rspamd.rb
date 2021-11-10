@@ -106,7 +106,6 @@ module Rspamd
 
     def check_headers headers
       og_length = headers.size
-      puts headers.size
       accepted_headers = headers.select do |k,v|
         next true unless AVAILABLE_HEADERS[k].nil?
 
