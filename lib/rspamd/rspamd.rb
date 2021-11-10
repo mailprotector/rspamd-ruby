@@ -47,50 +47,50 @@ module Rspamd
   module ClassMethods
     BASE_URL = ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
 
-    AVAILABLE_HEADERS = [
-      'Deliver-To',
-      'IP',
-      'Helo',
-      'Hostname',
-      'Flags',
-      'From',
-      'Queue-Id',
-      'Raw',
-      'Rcpt',
-      'Pass',
-      'Subject',
-      'User',
-      'Message-Length',
-      'Settings-ID',
-      'Settings',
-      'User-Agent',
-      'MTA-Tag',
-      'MTA-Name',
-      'TLS-Cipher',
-      'TLS-Version',
-      'TLS-Cert-Issuer',
-      'URL-Format',
-      'Filename',
-    ]
+    AVAILABLE_HEADERS = {
+      'Deliver-To': true,
+      'IP': true,
+      'Helo': true,
+      'Hostname': true,
+      'Flags': true,
+      'From': true,
+      'Queue-Id': true,
+      'Raw': true,
+      'Rcpt': true,
+      'Pass': true,
+      'Subject': true,
+      'User': true,
+      'Message-Length': true,
+      'Settings-ID': true,
+      'Settings': true,
+      'User-Agent': true,
+      'MTA-Tag': true,
+      'MTA-Name': true,
+      'TLS-Cipher': true,
+      'TLS-Version': true,
+      'TLS-Cert-Issuer': true,
+      'URL-Format': true,
+      'Filename': true
+    }
 
-    AVAILABLE_FLAGS = [
-      'pass_all',
-      'groups',
-      'zstd',
-      'no_log',
-      'milter',
-      'profile',
-      'body_block',
-      'ext_urls',
-      'skip',
-      'skip_process'
-    ]
+    AVAILABLE_FLAGS = {
+      'pass_all': true,
+      'groups': true,
+      'zstd': true,
+      'no_log': true,
+      'milter': true,
+      'profile': true,
+      'body_block': true,
+      'ext_urls': true,
+      'skip': true,
+      'skip_process': true
+    }
 
     def check_flags flags
       flags_array = flags.split(',')
       flags_count = flags_array.count
       flags.split(',').each do |f|
-        unless AVAILABLE_FLAGS.include? f
+        if AVAILABLE_FLAGS[f.to_sym].nil?
           flags_array.delete f
           puts "Rpamd error - #{f} is not a valid flag"
         end
@@ -100,7 +100,7 @@ module Rspamd
         puts flags_array if flags_array.count > 0
         puts 'none' if flags_array.count == 0
         puts 'All available flags are:'
-        puts AVAILABLE_FLAGS
+        puts AVAILABLE_FLAGS.keys
       end
       flags_array.join(',')
     end
@@ -113,7 +113,7 @@ module Rspamd
           headers.delete(:Flags) if headers[:Flags] == ''
         end
 
-        unless AVAILABLE_HEADERS.include? k.to_s
+        if AVAILABLE_HEADERS[k].nil?
           headers.delete(k)
           puts "Rpamd error - #{k.to_s} is not a valid header"
         end
@@ -122,7 +122,7 @@ module Rspamd
         puts 'Headers that were accepted:'
         puts headers
         puts 'All available headers are:'
-        puts AVAILABLE_HEADERS
+        puts AVAILABLE_HEADERS.keys
       end
       headers
     end
