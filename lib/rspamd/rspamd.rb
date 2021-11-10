@@ -37,78 +37,205 @@
 # Filename
 
 require_relative "version"
+require "httparty"
 
 module Rspamd
-  def self.checkv2(headers, data)
-    HttpWrapper.push("checkv2", headers, data)
+  def self.included(base)
+    base.extend ClassMethods
   end
 
-  def self.fuzzy_add(headers, data)
-    HttpWrapper.push("fuzzyadd", headers, data)
+  module ClassMethods
+    BASE_URL = ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
+
+    AVAILABLE_HEADERS = [
+      'Deliver-To',
+      'IP',
+      'Helo',
+      'Hostname',
+      'Flags',
+      'From',
+      'Queue-Id',
+      'Raw',
+      'Rcpt',
+      'Pass',
+      'Subject',
+      'User',
+      'Message-Length',
+      'Settings-ID',
+      'Settings',
+      'User-Agent',
+      'MTA-Tag',
+      'MTA-Name',
+      'TLS-Cipher',
+      'TLS-Version',
+      'TLS-Cert-Issuer',
+      'URL-Format',
+      'Filename',
+    ]
+
+    AVAILABLE_FLAGS = [
+      'pass_all',
+      'groups',
+      'zstd',
+      'no_log',
+      'milter',
+      'profile',
+      'body_block',
+      'ext_urls',
+      'skip',
+      'skip_process'
+    ]
+
+    def check_flags flags
+      flags_array = flags.split(',')
+      flags_count = flags_array.count
+      flags.split(',').each do |f|
+        unless AVAILABLE_FLAGS.include? f
+          flags_array.delete f
+          puts "Rpamd error - #{f} is not a valid flag"
+        end
+      end
+      if flags_count != flags_array.count
+        puts 'Flags that were accepted:'
+        puts flags_array if flags_array.count > 0
+        puts 'none' if flags_array.count == 0
+        puts 'All available flags are:'
+        puts AVAILABLE_FLAGS
+      end
+      flags_array.join(',')
+    end
+
+    def check_headers headers
+      og_length = headers.size
+      headers.each do |k,v|
+        if k.to_s == 'Flags'
+          headers[:Flags] = check_flags headers[:Flags]
+          headers.delete(:Flags) if headers[:Flags] == ''
+        end
+
+        unless AVAILABLE_HEADERS.include? k.to_s
+          headers.delete(k)
+          puts "Rpamd error - #{k.to_s} is not a valid header"
+        end
+      end
+      if og_length != headers.size
+        puts 'Headers that were accepted:'
+        puts headers
+        puts 'All available headers are:'
+        puts AVAILABLE_HEADERS
+      end
+      headers
+    end
+
+    def fetch(route, **options)
+      url = "#{BASE_URL}/#{route}"
+      url += "?#{options[:params]}" unless options[:params].nil?
+      options.delete :params
+      check_headers options
+      response = HTTParty.get(url, headers: options, format: :json)
+
+      raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
+
+      begin
+        body = JSON.parse(response.body) if response.body.is_a? String
+        ResponseTypes.convert(body)
+      rescue JSON::ParserError
+        response.body
+      end
+    end
+
+    def push(route, body = nil, **options)
+      url = "#{BASE_URL}/#{route}"
+      url += "?#{options[:params]}" unless options[:params].nil?
+      options.delete :params
+      check_headers options
+      response = HTTParty.post(url, headers: options, body: body, format: :json)
+
+      raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
+
+      begin
+        body = JSON.parse(response.body) if response.body.is_a? String
+        ResponseTypes.convert(body)
+      rescue JSON::ParserError
+        response.body
+      end
+    end
   end
 
-  def self.fuzzy_del(headers, data)
-    HttpWrapper.push("fuzzydel", headers, data)
+  class HttpWrapper
+    include Rspamd
   end
 
-  def self.learn_spam(headers, data)
-    HttpWrapper.push("learnspam", headers, data)
+  def self.checkv2(data, **options)
+    HttpWrapper.push("checkv2", data, **options)
   end
 
-  def self.learn_ham(headers, data)
-    HttpWrapper.push("learnham", headers, data)
+  def self.fuzzy_add(data, **options)
+    HttpWrapper.push("fuzzyadd", data, **options)
   end
 
-  def self.errors(headers)
-    HttpWrapper.fetch("errors", headers)
+  def self.fuzzy_del(data, **options)
+    HttpWrapper.push("fuzzydel", data, **options)
   end
 
-  def self.stat(headers)
-    HttpWrapper.fetch("stat", headers)
+  def self.learn_spam(data, **options)
+    HttpWrapper.push("learnspam", data, **options)
   end
 
-  def self.stat_reset(headers)
-    HttpWrapper.fetch("statreset", headers)
+  def self.learn_ham(data, **options)
+    HttpWrapper.push("learnham", data, **options)
   end
 
-  def self.graph(headers, type)
-    HttpWrapper.fetch("graph?type=#{type}", headers)
+  def self.errors(**options)
+    HttpWrapper.fetch("errors", **options)
   end
 
-  def self.history(headers)
-    HttpWrapper.fetch("history", headers)
+  def self.stat(**options)
+    HttpWrapper.fetch("stat", **options)
   end
 
-  def self.history_reset(headers)
-    HttpWrapper.fetch("historyreset", headers)
+  def self.stat_reset(**options)
+    HttpWrapper.fetch("statreset", **options)
   end
 
-  def self.actions(headers)
-    HttpWrapper.fetch("actions", headers)
+  def self.graph(type, **options)
+    HttpWrapper.fetch("graph?type=#{type}", **options)
   end
 
-  def self.symbols(headers)
-    HttpWrapper.fetch("symbols", headers)
+  def self.history(**options)
+    HttpWrapper.fetch("history", **options)
   end
 
-  def self.maps(headers)
-    HttpWrapper.fetch("maps", headers)
+  def self.history_reset(**options)
+    HttpWrapper.fetch("historyreset", **options)
   end
 
-  def self.neighbors(headers)
-    HttpWrapper.fetch("neighbors", headers)
+  def self.actions(**options)
+    HttpWrapper.fetch("actions", **options)
   end
 
-  def self.get_map(headers)
-    HttpWrapper.fetch("getmap", headers)
+  def self.symbols(**options)
+    HttpWrapper.fetch("symbols", **options)
   end
 
-  def self.fuzzy_del_hash(headers)
-    HttpWrapper.fetch("fuzzydelhash", headers)
+  def self.maps(**options)
+    HttpWrapper.fetch("maps", **options)
   end
 
-  def self.plugins(headers)
-    HttpWrapper.fetch("plugins", headers)
+  def self.neighbors(**options)
+    HttpWrapper.fetch("neighbors", **options)
+  end
+
+  def self.get_map(**options)
+    HttpWrapper.fetch("getmap", **options)
+  end
+
+  def self.fuzzy_del_hash(**options)
+    HttpWrapper.fetch("fuzzydelhash", **options)
+  end
+
+  def self.plugins(**options)
+    HttpWrapper.fetch("plugins", **options)
   end
 
   def self.ping

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "./lib/http_wrapper"
 require "./lib/rspamd/rspamd"
 require "./lib/rspamd/response_types"
 # require "pry"
