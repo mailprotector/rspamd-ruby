@@ -88,43 +88,45 @@ module Rspamd
 
     def check_flags flags
       flags_array = flags.split(',')
-      flags_count = flags_array.count
-      flags.split(',').each do |f|
-        if AVAILABLE_FLAGS[f.to_sym].nil?
-          flags_array.delete f
-          puts "Rpamd error - #{f} is not a valid flag"
-        end
+      accepted_flags = flags_array.select do |f|
+        next true unless AVAILABLE_FLAGS[f.to_sym].nil?
+
+        puts "Rpamd error - #{f} is not a valid flag"
+        next false
       end
-      if flags_count != flags_array.count
+      if flags_array.count != accepted_flags.count
         puts 'Flags that were accepted:'
-        puts flags_array if flags_array.count > 0
-        puts 'none' if flags_array.count == 0
+        puts accepted_flags if accepted_flags.count > 0
+        puts 'none' if accepted_flags.count == 0
         puts 'All available flags are:'
         puts AVAILABLE_FLAGS.keys
       end
-      flags_array.join(',')
+      accepted_flags.join(',')
     end
 
     def check_headers headers
       og_length = headers.size
-      headers.each do |k,v|
-        if k.to_s == 'Flags'
-          headers[:Flags] = check_flags headers[:Flags]
-          headers.delete(:Flags) if headers[:Flags] == ''
-        end
+      puts headers.size
+      accepted_headers = headers.select do |k,v|
+        next true unless AVAILABLE_HEADERS[k].nil?
 
-        if AVAILABLE_HEADERS[k].nil?
-          headers.delete(k)
-          puts "Rpamd error - #{k.to_s} is not a valid header"
-        end
+        puts "Rpamd error - #{k.to_s} is not a valid header"
+        next false
       end
-      if og_length != headers.size
+
+      unless accepted_headers[:Flags].nil?
+        checked_flags = check_flags accepted_headers[:Flags]
+        accepted_headers[:Flags] = checked_flags
+        accepted_headers.delete(:Flags) if checked_flags == ''
+      end
+
+      if og_length != accepted_headers.size
         puts 'Headers that were accepted:'
-        puts headers
+        puts accepted_headers
         puts 'All available headers are:'
         puts AVAILABLE_HEADERS.keys
       end
-      headers
+      accepted_headers
     end
 
     def fetch(route, **options)
