@@ -40,14 +40,7 @@ require_relative "version"
 require "httparty"
 
 module Rspamd
-  def self.included(base)
-    base.extend ClassMethods
-  end
-
-  module ClassMethods
-    BASE_URL = ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
-
-    AVAILABLE_HEADERS = {
+  AVAILABLE_HEADERS = {
       'Deliver-To': true,
       'IP': true,
       'Helo': true,
@@ -85,6 +78,91 @@ module Rspamd
       'skip': true,
       'skip_process': true
     }
+
+  class Client
+    include HTTParty
+
+    def initialize rspamd_url = ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
+      @base_url = rspamd_url
+    end
+
+    def checkv2(data, **options)
+      push("checkv2", data, **options)
+    end
+
+    def fuzzy_add(data, **options)
+      push("fuzzyadd", data, **options)
+    end
+
+    def fuzzy_del(data, **options)
+      push("fuzzydel", data, **options)
+    end
+
+    def learn_spam(data, **options)
+      push("learnspam", data, **options)
+    end
+
+    def learn_ham(data, **options)
+      push("learnham", data, **options)
+    end
+
+    def errors(**options)
+      fetch("errors", **options)
+    end
+
+    def stat(**options)
+      fetch("stat", **options)
+    end
+
+    def stat_reset(**options)
+      fetch("statreset", **options)
+    end
+
+    def graph(type, **options)
+      fetch("graph?type=#{type}", **options)
+    end
+
+    def history(**options)
+      fetch("history", **options)
+    end
+
+    def history_reset(**options)
+      fetch("historyreset", **options)
+    end
+
+    def actions(**options)
+      fetch("actions", **options)
+    end
+
+    def symbols(**options)
+      fetch("symbols", **options)
+    end
+
+    def maps(**options)
+      fetch("maps", **options)
+    end
+
+    def neighbors(**options)
+      fetch("neighbors", **options)
+    end
+
+    def get_map(**options)
+      fetch("getmap", **options)
+    end
+
+    def fuzzy_del_hash(**options)
+      fetch("fuzzydelhash", **options)
+    end
+
+    def plugins(**options)
+      fetch("plugins", **options)
+    end
+
+    def ping
+      fetch("ping")
+    end
+
+    private
 
     def check_flags flags
       flags_array = flags.split(',')
@@ -129,7 +207,7 @@ module Rspamd
     end
 
     def fetch(route, **options)
-      url = "#{BASE_URL}/#{route}"
+      url = "#{@base_url}/#{route}"
       url += "?#{options[:params]}" unless options[:params].nil?
       options.delete :params
       headers = check_headers options
@@ -146,7 +224,7 @@ module Rspamd
     end
 
     def push(route, body = nil, **options)
-      url = "#{BASE_URL}/#{route}"
+      url = "#{@base_url}/#{route}"
       url += "?#{options[:params]}" unless options[:params].nil?
       options.delete :params
       headers = check_headers options
@@ -161,85 +239,5 @@ module Rspamd
         response.body
       end
     end
-  end
-
-  class HttpWrapper
-    include Rspamd
-  end
-
-  def self.checkv2(data, **options)
-    HttpWrapper.push("checkv2", data, **options)
-  end
-
-  def self.fuzzy_add(data, **options)
-    HttpWrapper.push("fuzzyadd", data, **options)
-  end
-
-  def self.fuzzy_del(data, **options)
-    HttpWrapper.push("fuzzydel", data, **options)
-  end
-
-  def self.learn_spam(data, **options)
-    HttpWrapper.push("learnspam", data, **options)
-  end
-
-  def self.learn_ham(data, **options)
-    HttpWrapper.push("learnham", data, **options)
-  end
-
-  def self.errors(**options)
-    HttpWrapper.fetch("errors", **options)
-  end
-
-  def self.stat(**options)
-    HttpWrapper.fetch("stat", **options)
-  end
-
-  def self.stat_reset(**options)
-    HttpWrapper.fetch("statreset", **options)
-  end
-
-  def self.graph(type, **options)
-    HttpWrapper.fetch("graph?type=#{type}", **options)
-  end
-
-  def self.history(**options)
-    HttpWrapper.fetch("history", **options)
-  end
-
-  def self.history_reset(**options)
-    HttpWrapper.fetch("historyreset", **options)
-  end
-
-  def self.actions(**options)
-    HttpWrapper.fetch("actions", **options)
-  end
-
-  def self.symbols(**options)
-    HttpWrapper.fetch("symbols", **options)
-  end
-
-  def self.maps(**options)
-    HttpWrapper.fetch("maps", **options)
-  end
-
-  def self.neighbors(**options)
-    HttpWrapper.fetch("neighbors", **options)
-  end
-
-  def self.get_map(**options)
-    HttpWrapper.fetch("getmap", **options)
-  end
-
-  def self.fuzzy_del_hash(**options)
-    HttpWrapper.fetch("fuzzydelhash", **options)
-  end
-
-  def self.plugins(**options)
-    HttpWrapper.fetch("plugins", **options)
-  end
-
-  def self.ping
-    HttpWrapper.fetch("ping")
   end
 end
