@@ -23,3 +23,6 @@ Style/Documentation:
 
 Metrics/BlockLength:
   Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false

@@ -36,7 +36,7 @@
 # URL-Format	        Supported from version 1.9: return all URLs and email if this header is extended.
 # Filename
 
-require_relative "version"
+require_relative "rspamd/version"
 
 module Rspamd
   AVAILABLE_HEADERS = {
@@ -63,7 +63,7 @@ module Rspamd
     'TLS-Cert-Issuer': true,
     'URL-Format': true,
     'Filename': true
-  }
+  }.freeze
 
   AVAILABLE_FLAGS = {
     'pass_all': true,
@@ -76,5 +76,5 @@ module Rspamd
     'ext_urls': true,
     'skip': true,
     'skip_process': true
-  }
+  }.freeze
 end
