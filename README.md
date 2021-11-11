@@ -62,7 +62,7 @@ rspamd = Rspamd::Client.new custom_url
 | Filename          |                                                                                                                        |
 
 
-##Available Flags
+## Available Flags
 
 | Flags             | Description                                             |
 | ----------------- | ------------------------------------------------------- |
