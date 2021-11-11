@@ -75,35 +75,107 @@ response = rspamd.fuzzy_add(email)
 ```
 
 ### fuzzy_del(email, **options)
+```ruby
+rpsamd = Rspamd::Client.new
+email = 'bad_email'
+response = rspamd.fuzzy_del(email)
+```
 
 ### learn_spam(email, **options)
+```ruby
+rpsamd = Rspamd::Client.new
+email = 'bad_email'
+response = rspamd.learn_spam(email)
+```
 
 ### learn_ham(email, **options)
+```ruby
+rpsamd = Rspamd::Client.new
+email = 'bad_email'
+response = rspamd.learn_ham(email)
+```
 
 ### errors(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.errors()
+```
 
 ### stat(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.stat()
+```
 
 ### stat_reset(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.stat_reset()
+```
 
 ### graph(type, **options)
+```ruby
+rpsamd = Rspamd::Client.new
+type = 'special_type'
+response = rspamd.graph(type)
+```
 
 ### history(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.history()
+```
 
 ### history_reset(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.history_reset()
+```
 
 ### actions(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.actions()
+```
 
 ### symbols(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.symbols()
+```
 
 ### maps(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.maps()
+```
 
 ### neighbors(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.neighbors()
+```
 
 ### get_map(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.get_map()
+```
 
 ### fuzzy_del_hash(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.fuzzy_del_hash()
+```
 
 ### plugins(**options)
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.plugins()
+```
 
 ### ping
+```ruby
+rpsamd = Rspamd::Client.new
+response = rspamd.ping()
+```
