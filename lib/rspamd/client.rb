@@ -142,7 +142,8 @@ module Rspamd
 
       begin
         body = JSON.parse(response.body) if response.body.is_a? String
-        Rspamd::ResponseTypes.convert(body)
+        body = Rspamd::ResponseTypes.convert(body) unless body.is_a?(Array)
+        body
       rescue JSON::ParserError
         response.body
       end
@@ -159,7 +160,8 @@ module Rspamd
 
       begin
         body = JSON.parse(response.body) if response.body.is_a? String
-        Rspamd::ResponseTypes.convert(body)
+        body = Rspamd::ResponseTypes.convert(body) unless body.is_a?(Array)
+        body
       rescue JSON::ParserError
         response.body
       end
