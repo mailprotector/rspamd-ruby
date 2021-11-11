@@ -3,7 +3,7 @@
 require "./lib/rspamd/response_types"
 # require "pry"
 
-RSpec.describe ResponseTypes do
+RSpec.describe Rspamd::ResponseTypes do
   describe "convert" do
     let(:parsed_json) do
       JSON.parse('{
@@ -102,7 +102,7 @@ RSpec.describe ResponseTypes do
     end
 
     it "converts from json hash correctly" do
-      response = ResponseTypes.convert(parsed_json)
+      response = Rspamd::ResponseTypes.convert(parsed_json)
       expect(response.is_skipped).to eq(false)
       expect(response.score).to eq(11.9)
       expect(response.required_score).to eq(12.0)
@@ -122,12 +122,12 @@ RSpec.describe ResponseTypes do
     end
 
     it ".convert #symbol_score_sum" do
-      response = ResponseTypes.convert(parsed_json)
+      response = Rspamd::ResponseTypes.convert(parsed_json)
       expect(response.symbol_score_sum).to eq(11.9)
     end
 
     it ".convert #symbol_metric_score_sum" do
-      response = ResponseTypes.convert(parsed_json)
+      response = Rspamd::ResponseTypes.convert(parsed_json)
       expect(response.symbol_metric_score_sum).to eq(11.9)
     end
   end

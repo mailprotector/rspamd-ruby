@@ -11,7 +11,7 @@ module Rspamd
       @base_url = rspamd_url
     end
 
-    def checkv2(data, **options)
+    def scan(data, **options)
       push("checkv2", data, **options)
     end
 
@@ -138,11 +138,11 @@ module Rspamd
       headers = check_headers options
       response = self.class.get(url, headers: headers, format: :json)
 
-      raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
+      raise StandardError, "Invalid RSpamD API Response - URI:/#{url} - #{response["error"]}" unless response.success?
 
       begin
         body = JSON.parse(response.body) if response.body.is_a? String
-        ResponseTypes.convert(body)
+        Rspamd::ResponseTypes.convert(body)
       rescue JSON::ParserError
         response.body
       end
@@ -155,11 +155,11 @@ module Rspamd
       headers = check_headers options
       response = self.class.post(url, headers: headers, body: body, format: :json)
 
-      raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?
+      raise StandardError, "Invalid RSpamD API Response - URI:/#{url} - #{response["error"]}" unless response.success?
 
       begin
         body = JSON.parse(response.body) if response.body.is_a? String
-        ResponseTypes.convert(body)
+        Rspamd::ResponseTypes.convert(body)
       rescue JSON::ParserError
         response.body
       end

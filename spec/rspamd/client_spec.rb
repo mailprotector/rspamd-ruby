@@ -5,7 +5,7 @@ require "./lib/rspamd/response_types"
 # require "pry"
 RSpec.describe Rspamd::Client do
   context "instance methods" do
-    describe "#checkv2" do
+    describe "#scan" do
       let(:response_body) { '{"test": "ing"}' }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd::Client.new }
@@ -13,8 +13,8 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
-        rspamd.checkv2(body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
+        rspamd.scan(body)
       end
 
       it "calls the push method" do
@@ -34,7 +34,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.fuzzy_add(body)
       end
 
@@ -55,7 +55,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.fuzzy_del(body)
       end
 
@@ -76,7 +76,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.learn_spam(body)
       end
 
@@ -97,7 +97,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.learn_ham(body)
       end
 
@@ -118,7 +118,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.errors(Subject: "test")
       end
 
@@ -139,7 +139,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.stat(Subject: "test")
       end
 
@@ -160,7 +160,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.stat_reset(Subject: "test")
       end
 
@@ -181,7 +181,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.graph("testtype", Subject: "test")
       end
 
@@ -202,7 +202,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.history(Subject: "test")
       end
 
@@ -223,7 +223,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.history_reset(Subject: "test")
       end
 
@@ -244,7 +244,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.actions(Subject: "test")
       end
 
@@ -265,7 +265,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.symbols(Subject: "test")
       end
 
@@ -286,7 +286,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.maps(Subject: "test")
       end
 
@@ -307,7 +307,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.neighbors(Subject: "test")
       end
 
@@ -328,7 +328,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.get_map(Subject: "test")
       end
 
@@ -349,7 +349,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.fuzzy_del_hash(Subject: "test")
       end
 
@@ -370,7 +370,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.plugins(Subject: "test")
       end
 
@@ -391,7 +391,7 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:get).and_return(get_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.ping
       end
 
@@ -413,8 +413,8 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
-        rspamd.checkv2(body, Flags: "badflag,badflag2,pass_all,groups")
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
+        rspamd.scan(body, Flags: "badflag,badflag2,pass_all,groups")
       end
 
       it "removes bad flags" do
@@ -434,8 +434,8 @@ RSpec.describe Rspamd::Client do
 
       before do
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
-        allow(ResponseTypes).to receive(:convert).and_return(response_body)
-        rspamd.checkv2(body, Subject: "test", "Bad-Header": false)
+        allow(Rspamd::ResponseTypes).to receive(:convert).and_return(response_body)
+        rspamd.scan(body, Subject: "test", "Bad-Header": false)
       end
 
       it "removes bad headers" do
