@@ -34,6 +34,7 @@ rspamd = Rspamd::Client.new custom_url
 ```
 
 ## Available Headers
+
 | Headers           | Description |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Deliver-To        | Defines actual delivery recipient of message. Can be used for personalized statistics and for user specific options.   |
@@ -60,7 +61,9 @@ rspamd = Rspamd::Client.new custom_url
 | URL-Format	      | Supported from version 1.9: return all URLs and email if this header is extended.                                      |
 | Filename          |                                                                                                                        |
 
-#Available Flags
+
+##Available Flags
+
 | Flags             | Description                                             |
 | ----------------- | ------------------------------------------------------- |
 | pass_all:         | pass all filters                                        |
