@@ -45,6 +45,9 @@ To set HTTP Query Parameters, we can pass in params: 'test=true&gravity=still_wo
 rpsamd = Rspamd::Client.new
 email = 'bad_email'
 response = rspamd.scan(email, Rcpt: 'test@test.com', params: 'bad=param')
+puts response
+puts response.symbol_score_sum
+puts response.symbol_metric_score_sum
 ```
 Response:
 ```ruby
