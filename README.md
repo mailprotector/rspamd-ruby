@@ -62,6 +62,7 @@ rspamd = Rspamd::Client.new custom_url
 
 #Available Flags
 | Flags             | Description                                             |
+| ----------------- | ------------------------------------------------------- |
 | pass_all:         | pass all filters                                        |
 | groups:           | return symbols groups                                   |
 | zstd:             | compressed input/output                                 |
