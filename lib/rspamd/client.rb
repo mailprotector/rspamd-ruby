@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "pry"
+# require "pry"
 require "httparty"
 
 module Rspamd
@@ -153,7 +153,6 @@ module Rspamd
       url += "?#{options[:params]}" unless options[:params].nil?
       options.delete :params
       headers = check_headers options
-      # binding.pry
       response = self.class.post(url, headers: headers, body: body, format: :json)
 
       raise StandardError, "Invalid RSpamD API Response - URI:/#{url}" unless response.success?

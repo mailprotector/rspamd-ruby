@@ -5,15 +5,13 @@ require "./lib/rspamd/response_types"
 # require "pry"
 RSpec.describe Rspamd::Client do
   context "instance methods" do
-    describe ".checkv2" do
+    describe "#checkv2" do
       let(:response_body) { '{"test": "ing"}' }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
-      let(:get_double) { instance_double(HTTParty::Response, body: response_body) }
       let(:rspamd) { Rspamd::Client.new }
       let(:body) { "body" }
 
       before do
-        allow(Rspamd::Client).to receive(:get).and_return(get_double)
         allow(Rspamd::Client).to receive(:post).and_return(post_double)
         allow(ResponseTypes).to receive(:convert).and_return(response_body)
         rspamd.checkv2(body)
@@ -401,6 +399,50 @@ RSpec.describe Rspamd::Client do
         expect(Rspamd::Client).to have_received(:get).with(
           "http://localhost:11334/ping",
           { format: :json, headers: {} }
+        )
+      end
+    end
+  end
+
+  context "private methods" do
+    describe "check_flags" do
+      let(:response_body) { '{"test": "ing"}' }
+      let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
+      let(:rspamd) { Rspamd::Client.new }
+      let(:body) { "body" }
+
+      before do
+        allow(Rspamd::Client).to receive(:post).and_return(post_double)
+        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        rspamd.checkv2(body, Flags: "badflag,badflag2,pass_all,groups")
+      end
+
+      it "removes bad flags" do
+        headers = { Flags: "pass_all,groups" }
+        expect(Rspamd::Client).to have_received(:post).with(
+          "http://localhost:11334/checkv2",
+          { body: body, format: :json, headers: headers }
+        )
+      end
+    end
+
+    describe "check_headers" do
+      let(:response_body) { '{"test": "ing"}' }
+      let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
+      let(:rspamd) { Rspamd::Client.new }
+      let(:body) { "body" }
+
+      before do
+        allow(Rspamd::Client).to receive(:post).and_return(post_double)
+        allow(ResponseTypes).to receive(:convert).and_return(response_body)
+        rspamd.checkv2(body, Subject: "test", "Bad-Header": false)
+      end
+
+      it "removes bad headers" do
+        headers = { Subject: "test" }
+        expect(Rspamd::Client).to have_received(:post).with(
+          "http://localhost:11334/checkv2",
+          { body: body, format: :json, headers: headers }
         )
       end
     end
