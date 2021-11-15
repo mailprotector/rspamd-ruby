@@ -6,7 +6,6 @@ require "rspamd/reply"
 require "httparty"
 
 module Rspamd
-
   include HTTParty
   base_uri ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
 
@@ -125,21 +124,20 @@ module Rspamd
     fetch("ping")
   end
 
-  private
-
   def self.check_flags(flags)
     flags_array = flags.split(",")
     accepted_flags = flags_array.select do |f|
       next true unless Rspamd::AVAILABLE_FLAGS[f.to_sym].nil?
+
       next false
     end
     accepted_flags.join(",")
   end
 
   def self.check_headers(headers)
-    og_length = headers.size
     accepted_headers = headers.select do |k, _v|
       next true unless Rspamd::AVAILABLE_HEADERS[k].nil?
+
       next false
     end
 
@@ -161,7 +159,7 @@ module Rspamd
     raise InvalidResponseError, "Invalid Rspamd API Response - URI:/#{url} - #{response["error"]}" unless response.success?
 
     begin
-      body = JSON.parse(response.body) if response.body.is_a? String
+      JSON.parse(response.body) if response.body.is_a? String
     rescue JSON::ParserError
       response.body
     end
@@ -177,7 +175,7 @@ module Rspamd
     raise InvalidResponseError, "Invalid Rspamd API Response - URI:/#{url} - #{response["error"]}" unless response.success?
 
     begin
-      body = JSON.parse(response.body) if response.body.is_a? String
+      JSON.parse(response.body) if response.body.is_a? String
     rescue JSON::ParserError
       response.body
     end

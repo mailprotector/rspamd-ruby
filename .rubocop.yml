@@ -26,3 +26,6 @@ Metrics/BlockLength:
 
 Metrics/ClassLength:
   Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false

@@ -19,7 +19,7 @@ RSpec.describe Rspamd do
 
   context "class methods" do
     describe "#scan" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -40,7 +40,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#fuzzy_add" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -61,7 +61,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#fuzzy_del" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -82,7 +82,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#learn_spam" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -103,7 +103,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#learn_ham" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -124,7 +124,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#errors" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -145,7 +145,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#stat" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -166,7 +166,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#stat_reset" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -187,7 +187,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#graph" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -208,7 +208,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#history" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -229,7 +229,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#history_reset" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -250,7 +250,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#actions" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -271,7 +271,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#symbols" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -292,7 +292,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#maps" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -313,7 +313,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#neighbors" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -334,7 +334,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#get_map" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -355,7 +355,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#fuzzy_del_hash" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -376,7 +376,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#plugins" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -397,7 +397,7 @@ RSpec.describe Rspamd do
     end
 
     describe "#ping" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:get_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -419,7 +419,7 @@ RSpec.describe Rspamd do
 
   context "private methods" do
     describe "check_flags" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
@@ -440,7 +440,7 @@ RSpec.describe Rspamd do
     end
 
     describe "check_headers" do
-      let(:response_body) { {"test": "ing"} }
+      let(:response_body) { { "test": "ing" } }
       let(:post_double) { instance_double(HTTParty::Response, body: response_body, success?: true) }
       let(:rspamd) { Rspamd }
       let(:body) { "body" }
