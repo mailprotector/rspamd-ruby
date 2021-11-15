@@ -19,13 +19,7 @@ Or install it yourself as:
 
 ## Usage
 
-By default the client will try to use the ENV['RSPAMD_URL'] environment variable. If it doesn't find one it will use http://localhost:11334
-Passing in a string to the Rspamd::Client allows you to define the RSPAMD_URL the client will connect to.
-
-```ruby
-custom_url = 'fancy_url'
-rspamd = Rspamd::Client.new custom_url
-```
+The client will try to use the ENV['RSPAMD_URL'] environment variable. If it doesn't find one it will use http://localhost:11334
 
 ## Available Headers
 
