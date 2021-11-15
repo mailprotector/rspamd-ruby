@@ -7,7 +7,7 @@ require "httparty"
 
 module Rspamd
   include HTTParty
-  base_uri ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
+  base_uri ENV.fetch("RSPAMD_URL", "http://localhost:11334")
 
   AVAILABLE_HEADERS = {
     'Deliver-To': true,
