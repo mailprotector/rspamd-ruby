@@ -3,11 +3,9 @@ AllCops:
 
 Style/StringLiterals:
   Enabled: true
-  EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   Enabled: true
-  EnforcedStyle: double_quotes
 
 Layout/LineLength:
   Enabled: false
@@ -28,4 +26,7 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
   Enabled: false

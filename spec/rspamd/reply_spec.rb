@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "./lib/rspamd/reply"
+require './lib/rspamd/reply'
 # require "pry"
 
 RSpec.describe Rspamd::Reply do
-  describe "convert" do
+  describe 'convert' do
     let(:response) do
       JSON.parse('{
         "is_skipped": false,
@@ -101,32 +101,32 @@ RSpec.describe Rspamd::Reply do
       }')
     end
 
-    it "converts from json hash correctly" do
+    it 'converts from json hash correctly' do
       reply = Rspamd::Reply.new(response)
       expect(reply.is_skipped).to eq(false)
       expect(reply.score).to eq(11.9)
       expect(reply.required_score).to eq(12.0)
-      expect(reply.action).to eq("quarantine")
+      expect(reply.action).to eq('quarantine')
       expect(reply.messages).to eq({})
-      expect(reply.message_id).to eq("undef")
+      expect(reply.message_id).to eq('undef')
       expect(reply.time_real).to eq(0.003247)
-      expect(reply.milter).to eq({ "remove_headers" => { "X-Spam" => 0 } })
+      expect(reply.milter).to eq({ 'remove_headers' => { 'X-Spam' => 0 } })
 
       reply.symbols.each do |sym, _i|
-        expect(sym.name).to eq(response["symbols"][sym.name]["name"])
-        expect(sym.score).to eq(response["symbols"][sym.name]["score"])
-        expect(sym.metric_score).to eq(response["symbols"][sym.name]["metric_score"])
-        expect(sym.description).to eq(response["symbols"][sym.name]["description"])
-        expect(sym.options).to eq(response["symbols"][sym.name]["options"])
+        expect(sym.name).to eq(response['symbols'][sym.name]['name'])
+        expect(sym.score).to eq(response['symbols'][sym.name]['score'])
+        expect(sym.metric_score).to eq(response['symbols'][sym.name]['metric_score'])
+        expect(sym.description).to eq(response['symbols'][sym.name]['description'])
+        expect(sym.options).to eq(response['symbols'][sym.name]['options'])
       end
     end
 
-    it ".convert #total_score" do
+    it '.convert #total_score' do
       reply = Rspamd::Reply.new(response)
       expect(reply.total_score).to eq(11.9)
     end
 
-    it ".convert #total_metric_score" do
+    it '.convert #total_metric_score' do
       reply = Rspamd::Reply.new(response)
       expect(reply.total_metric_score).to eq(11.9)
     end
