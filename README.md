@@ -6,7 +6,7 @@ An Rspamd ruby client.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rspamd-ruby'
+gem 'rspamd'
 ```
 
 And then execute:
@@ -15,7 +15,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rspamd-ruby
+    $ gem install rspamd
 
 ## Usage
 

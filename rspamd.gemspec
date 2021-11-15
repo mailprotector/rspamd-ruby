@@ -5,8 +5,8 @@ require_relative "lib/rspamd/version"
 Gem::Specification.new do |spec|
   spec.name          = "rspamd"
   spec.version       = Rspamd::VERSION
-  spec.authors       = ["mailprotector"]
-  spec.email         = ["npm@mailprotector.com"]
+  spec.authors       = ["Mailprotector"]
+  spec.email         = ["rubygems@mailprotector.com"]
 
   spec.summary       = "An HTTP wrapper for RSPAMD"
   spec.homepage      = "https://github.com/mailprotector/rspamd-ruby"
