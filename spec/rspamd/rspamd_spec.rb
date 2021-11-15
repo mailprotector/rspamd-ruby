@@ -26,7 +26,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:new).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:new).and_return(response_body)
         rspamd.scan(body)
       end
 
@@ -47,7 +47,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         rspamd.fuzzy_add(body)
       end
 
@@ -68,7 +68,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         rspamd.fuzzy_del(body)
       end
 
@@ -89,7 +89,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         rspamd.learn_spam(body)
       end
 
@@ -110,7 +110,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.learn_ham(body)
       end
 
@@ -131,7 +131,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.errors(Subject: "test")
       end
 
@@ -152,7 +152,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.stat(Subject: "test")
       end
 
@@ -173,7 +173,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.stat_reset(Subject: "test")
       end
 
@@ -194,7 +194,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.graph("testtype", Subject: "test")
       end
 
@@ -215,7 +215,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.history(Subject: "test")
       end
 
@@ -236,7 +236,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.history_reset(Subject: "test")
       end
 
@@ -257,7 +257,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.actions(Subject: "test")
       end
 
@@ -278,7 +278,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.symbols(Subject: "test")
       end
 
@@ -299,7 +299,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.maps(Subject: "test")
       end
 
@@ -320,7 +320,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.neighbors(Subject: "test")
       end
 
@@ -341,7 +341,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.get_map(Subject: "test")
       end
 
@@ -362,7 +362,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.fuzzy_del_hash(Subject: "test")
       end
 
@@ -383,7 +383,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.plugins(Subject: "test")
       end
 
@@ -404,7 +404,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:get).and_return(get_double)
-        allow(Reply).to receive(:convert).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:convert).and_return(response_body)
         Rspamd.ping
       end
 
@@ -426,7 +426,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:new).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:new).and_return(response_body)
         Rspamd.scan(body, Flags: "badflag,badflag2,pass_all,groups")
       end
 
@@ -447,7 +447,7 @@ RSpec.describe Rspamd do
 
       before do
         allow(Rspamd).to receive(:post).and_return(post_double)
-        allow(Reply).to receive(:new).and_return(response_body)
+        allow(Rspamd::Reply).to receive(:new).and_return(response_body)
         Rspamd.scan(body, Subject: "test", "Bad-Header": false)
       end
 

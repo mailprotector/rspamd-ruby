@@ -3,7 +3,7 @@
 require "./lib/rspamd/reply"
 # require "pry"
 
-RSpec.describe Reply do
+RSpec.describe Rspamd::Reply do
   describe "convert" do
     let(:response) do
       JSON.parse('{
@@ -102,7 +102,7 @@ RSpec.describe Reply do
     end
 
     it "converts from json hash correctly" do
-      reply = Reply.new(response)
+      reply = Rspamd::Reply.new(response)
       expect(reply.is_skipped).to eq(false)
       expect(reply.score).to eq(11.9)
       expect(reply.required_score).to eq(12.0)
@@ -122,12 +122,12 @@ RSpec.describe Reply do
     end
 
     it ".convert #total_score" do
-      reply = Reply.new(response)
+      reply = Rspamd::Reply.new(response)
       expect(reply.total_score).to eq(11.9)
     end
 
     it ".convert #total_metric_score" do
-      reply = Reply.new(response)
+      reply = Rspamd::Reply.new(response)
       expect(reply.total_metric_score).to eq(11.9)
     end
   end

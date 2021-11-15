@@ -6,6 +6,7 @@ require "rspamd/reply"
 require "httparty"
 
 module Rspamd
+
   include HTTParty
   base_uri ENV.fetch("RSPAMD_URL", "http://localhost:11334").to_s
 
