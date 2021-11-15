@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "./lib/rspamd/response_types"
+require './lib/rspamd/reply'
 # require "pry"
 
-RSpec.describe Rspamd::ResponseTypes do
-  describe "convert" do
-    let(:parsed_json) do
+RSpec.describe Rspamd::Reply do
+  describe 'convert' do
+    let(:response) do
       JSON.parse('{
         "is_skipped": false,
         "score": 11.900000,
@@ -101,34 +101,34 @@ RSpec.describe Rspamd::ResponseTypes do
       }')
     end
 
-    it "converts from json hash correctly" do
-      response = Rspamd::ResponseTypes.convert(parsed_json)
-      expect(response.is_skipped).to eq(false)
-      expect(response.score).to eq(11.9)
-      expect(response.required_score).to eq(12.0)
-      expect(response.action).to eq("quarantine")
-      expect(response.messages).to eq({})
-      expect(response.message_id).to eq("undef")
-      expect(response.time_real).to eq(0.003247)
-      expect(response.milter).to eq({ "remove_headers" => { "X-Spam" => 0 } })
+    it 'converts from json hash correctly' do
+      reply = Rspamd::Reply.new(response)
+      expect(reply.is_skipped).to eq(false)
+      expect(reply.score).to eq(11.9)
+      expect(reply.required_score).to eq(12.0)
+      expect(reply.action).to eq('quarantine')
+      expect(reply.messages).to eq({})
+      expect(reply.message_id).to eq('undef')
+      expect(reply.time_real).to eq(0.003247)
+      expect(reply.milter).to eq({ 'remove_headers' => { 'X-Spam' => 0 } })
 
-      response.symbols.each do |sym, _i|
-        expect(sym.name).to eq(parsed_json["symbols"][sym.name]["name"])
-        expect(sym.score).to eq(parsed_json["symbols"][sym.name]["score"])
-        expect(sym.metric_score).to eq(parsed_json["symbols"][sym.name]["metric_score"])
-        expect(sym.description).to eq(parsed_json["symbols"][sym.name]["description"])
-        expect(sym.options).to eq(parsed_json["symbols"][sym.name]["options"])
+      reply.symbols.each do |sym, _i|
+        expect(sym.name).to eq(response['symbols'][sym.name]['name'])
+        expect(sym.score).to eq(response['symbols'][sym.name]['score'])
+        expect(sym.metric_score).to eq(response['symbols'][sym.name]['metric_score'])
+        expect(sym.description).to eq(response['symbols'][sym.name]['description'])
+        expect(sym.options).to eq(response['symbols'][sym.name]['options'])
       end
     end
 
-    it ".convert #symbol_score_sum" do
-      response = Rspamd::ResponseTypes.convert(parsed_json)
-      expect(response.symbol_score_sum).to eq(11.9)
+    it '.convert #total_score' do
+      reply = Rspamd::Reply.new(response)
+      expect(reply.total_score).to eq(11.9)
     end
 
-    it ".convert #symbol_metric_score_sum" do
-      response = Rspamd::ResponseTypes.convert(parsed_json)
-      expect(response.symbol_metric_score_sum).to eq(11.9)
+    it '.convert #total_metric_score' do
+      reply = Rspamd::Reply.new(response)
+      expect(reply.total_metric_score).to eq(11.9)
     end
   end
 end

@@ -6,7 +6,7 @@ An Rspamd ruby client.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rspamd-ruby'
+gem 'rspamd'
 ```
 
 And then execute:
@@ -15,23 +15,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rspamd-ruby
+    $ gem install rspamd
 
 ## Usage
 
-Create an Rspamd::Client to use its methods
-
-```ruby
-rpsamd = Rspamd::Client.new
-```
-
-By default the client will try to use the ENV['RSPAMD_URL'] environment variable. If it doesn't find one it will use http://localhost:11334
-Passing in a string to the Rspamd::Client allows you to define the RSPAMD_URL the client will connect to.
-
-```ruby
-custom_url = 'fancy_url'
-rspamd = Rspamd::Client.new custom_url
-```
+The client will try to use the ENV['RSPAMD_URL'] environment variable. If it doesn't find one it will use http://localhost:11334
 
 ## Available Headers
 
@@ -86,22 +74,21 @@ To set HTTP Query Parameters, we can pass in params:String to the options.
 
 ### scan (email, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 email = 'bad_email'
-response = rspamd.scan(email, Rcpt: 'test@test.com', params: 'bad=param')
-puts response
-puts response.symbol_score_sum
-puts response.symbol_metric_score_sum
+reply = Rspamd.scan(email, Rcpt: 'test@test.com', params: 'bad=param')
+puts reply
+puts reply.total_score
+puts reply.total_metric_score
 ```
 Response:
 ```ruby
-<struct ResponseTypes::MESSAGE
+<class Reply
  is_skipped=false,
  score=11.9,
  required_score=12.0,
  action="quarantine",
  symbols=[
-   <struct ResponseTypes::SYMBOL
+   <class Reply::Symbol
     name="MIME_TRACE",
     score=0.0,
     metric_score=0.0,
@@ -116,115 +103,97 @@ Response:
 
 ### fuzzy_add(email, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 email = 'bad_email'
-response = rspamd.fuzzy_add(email)
+reply = Rspamd.fuzzy_add(email)
 ```
 
 ### fuzzy_del(email, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 email = 'bad_email'
-response = rspamd.fuzzy_del(email)
+reply = Rspamd.fuzzy_del(email)
 ```
 
 ### learn_spam(email, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 email = 'bad_email'
-response = rspamd.learn_spam(email)
+reply = Rspamd.learn_spam(email)
 ```
 
 ### learn_ham(email, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 email = 'bad_email'
-response = rspamd.learn_ham(email)
+reply = Rspamd.learn_ham(email)
 ```
 
 ### errors(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.errors()
+reply = Rspamd.errors()
 ```
 
 ### stat(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.stat()
+reply = Rspamd.stat()
 ```
 
 ### stat_reset(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.stat_reset()
+reply = Rspamd.stat_reset()
 ```
 
 ### graph(type, **options)
 ```ruby
-rpsamd = Rspamd::Client.new
 type = 'special_type'
-response = rspamd.graph(type)
+reply = Rspamd.graph(type)
 ```
 
 ### history(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.history()
+reply = Rspamd.history()
 ```
 
 ### history_reset(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.history_reset()
+reply = Rspamd.history_reset()
 ```
 
 ### actions(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.actions()
+reply = Rspamd.actions()
 ```
 
 ### symbols(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.symbols()
+reply = Rspamd.symbols()
 ```
 
 ### maps(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.maps()
+reply = Rspamd.maps()
 ```
 
 ### neighbors(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.neighbors()
+reply = Rspamd.neighbors()
 ```
 
 ### get_map(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.get_map()
+reply = Rspamd.get_map()
 ```
 
 ### fuzzy_del_hash(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.fuzzy_del_hash()
+reply = Rspamd.fuzzy_del_hash()
 ```
 
 ### plugins(**options)
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.plugins()
+reply = Rspamd.plugins()
 ```
 
 ### ping
 ```ruby
-rpsamd = Rspamd::Client.new
-response = rspamd.ping()
+reply = Rspamd.ping()
 ```
 
 ##
