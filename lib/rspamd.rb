@@ -134,8 +134,8 @@ module Rspamd
         headers << { "#{AVAILABLE_HEADERS[key]}": prepare_flags(value) }
       when :raw
         headers << { "#{AVAILABLE_HEADERS[key]}": (value == true ? 'yes' : 'no') }
-      when :recipients
-        recipients.each do |recipient|
+      when :rcpts
+        value.each do |recipient|
           headers << { "#{AVAILABLE_HEADERS[key]}": recipient }
         end
       else
